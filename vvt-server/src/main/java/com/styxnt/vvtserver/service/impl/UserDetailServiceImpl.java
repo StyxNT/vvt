@@ -32,10 +32,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
 
-//        user.setRoles(roleService.getRolesByUserId(user.getId()));
+        user.setRoles(roleService.getRolesByUserId(user.getId()));
 
-
-
-        return null;
+        return user;
     }
 }

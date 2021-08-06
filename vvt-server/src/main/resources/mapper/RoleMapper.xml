@@ -13,7 +13,10 @@
     <sql id="Base_Column_List">
         id,role,role_name
     </sql>
-<!--    <select id="getRolesByUserId" resultType="com.styxnt.vvtserver.pojo.Role"></select>-->
+    <select id="getRolesByUserId" resultType="com.styxnt.vvtserver.pojo.Role">
+        SELECT r.* FROM t_role r,t_user_role ur where r.id=ur.role_id AND ur.user_id=#{id}
+
+    </select>
 
 
 </mapper>

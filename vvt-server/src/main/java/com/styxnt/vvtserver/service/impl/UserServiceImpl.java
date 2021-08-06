@@ -5,12 +5,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.styxnt.vvtserver.mapper.RoleMapper;
 import com.styxnt.vvtserver.mapper.UserMapper;
 import com.styxnt.vvtserver.mapper.UserRoleMapper;
+import com.styxnt.vvtserver.pojo.LoginParam;
 import com.styxnt.vvtserver.pojo.Role;
 import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.pojo.UserRole;
 import com.styxnt.vvtserver.service.UserService;
 import com.styxnt.vvtserver.utils.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +39,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 用户注册
@@ -64,6 +73,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
         return CommonResponse.error("注册失败");
+    }
+
+    /**
+     * 用户登录
+     * @param loginUser
+     * @return
+     */
+    @Override
+    public CommonResponse login(LoginParam loginUser) {
+
+        UserDetails userDetails;
+
+        try {
+            userDetails=userDetailsService.loadUserByUsername(loginUser.getUsername());
+        }catch (UsernameNotFoundException e){
+            return CommonResponse.error("用户不存在！");
+        }
+
+        if(userDetails==null||!passwordEncoder.matches(loginUser.getPassword(),userDetails.getPassword())){
+            return CommonResponse.error("用户名或密码错误！");
+        }
+        if(!userDetails.isEnabled()){
+            return CommonResponse.error("账户被禁用，请联系管理员！");
+        }
+
+        //        更新security登录用户对象
+        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
+                userDetails,null,userDetails.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        return CommonResponse.success("登录成功");
     }
 }
 

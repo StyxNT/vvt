@@ -24,11 +24,11 @@ implements RoleService {
      * @param id
      * @return
      */
-//    @Override
-//    public List<Role> getRolesByUserId(Integer id) {
-//
-////        return roleMapper.getRolesByUserId(id);
-//    }
+    @Override
+    public List<Role> getRolesByUserId(Integer id) {
+
+        return roleMapper.getRolesByUserId(id);
+    }
 }
 
 

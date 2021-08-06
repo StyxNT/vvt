@@ -1,5 +1,6 @@
 package com.styxnt.vvtserver.controller;
 
+import com.styxnt.vvtserver.pojo.LoginParam;
 import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.UserService;
 import com.styxnt.vvtserver.utils.CommonResponse;
@@ -28,5 +29,11 @@ public class UserController {
     @PostMapping("/register")
     public CommonResponse register(@RequestBody User user) {
         return userService.register(user);
+    }
+
+    @ApiOperation(value = "用户登录")
+    @PostMapping("/login")
+    public CommonResponse login(@RequestBody LoginParam user){
+        return userService.login(user);
     }
 }
