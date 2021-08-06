@@ -47,8 +47,9 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
   type-aliases-package: com.styxnt.vvtserver.pojo
+#  下划线命名转驼峰
   configuration:
-    map-underscore-to-camel-case: false
+    map-underscore-to-camel-case: true
 ##    Mybatis SQL打印(方法接口所在包)
 #logging:
 #  level:

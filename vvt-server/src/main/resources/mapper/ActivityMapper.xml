@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.styxnt.vvtserver.mapper.ActivityMapper">
+
+    <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.Activity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="creator_id" column="creator_id" jdbcType="INTEGER"/>
+            <result property="activity_description" column="activity_description" jdbcType="VARCHAR"/>
+            <result property="create_date" column="create_date" jdbcType="DATE"/>
+            <result property="start_date" column="start_date" jdbcType="DATE"/>
+            <result property="end_date" column="end_date" jdbcType="DATE"/>
+            <result property="max_participant" column="max_participant" jdbcType="INTEGER"/>
+            <result property="enabled" column="enabled" jdbcType="INTEGER"/>
+            <result property="active" column="active" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,creator_id,
+        activity_description,create_date,start_date,
+        end_date,max_participant,enabled,
+        active
+    </sql>
+</mapper>
