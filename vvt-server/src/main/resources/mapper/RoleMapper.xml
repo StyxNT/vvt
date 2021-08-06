@@ -13,13 +13,7 @@
     <sql id="Base_Column_List">
         id,role,role_name
     </sql>
-
-
-    <select id="getRolesByUserId" resultType="com.styxnt.vvtserver.pojo.Role">
-
-
-
-    </select>
+<!--    <select id="getRolesByUserId" resultType="com.styxnt.vvtserver.pojo.Role"></select>-->
 
 
 </mapper>

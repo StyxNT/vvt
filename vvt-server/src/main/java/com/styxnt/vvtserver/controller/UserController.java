@@ -25,7 +25,7 @@ public class UserController {
 
 
     @ApiOperation(value = "用户注册")
-    @PostMapping("/user")
+    @PostMapping("/register")
     public CommonResponse register(@RequestBody User user) {
         return userService.register(user);
     }

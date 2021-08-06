@@ -21,7 +21,7 @@ import java.io.IOException;
  * @author StyxNT
  * @date 2021/8/6
  */
-@Component
+//@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 

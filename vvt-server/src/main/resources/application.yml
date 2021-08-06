@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yeb?userUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/vvt?userUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: mysql
     password: 123456
     hikari:
@@ -51,9 +51,9 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 ##    Mybatis SQL打印(方法接口所在包)
-#logging:
-#  level:
-#    com.styx.server.mapper: debug
+logging:
+  level:
+    com.styxnt.vvtserver.mapper: debug
 
 jwt:
   #JWT存储的请求头

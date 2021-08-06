@@ -45,12 +45,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public CommonResponse register(User user) {
 
         //查询用户想要注册的角色信息
-        Role role = roleMapper.selectOne(new QueryWrapper<Role>().eq("role_name", user.getRole()));
+        Role role = roleMapper.selectOne(new QueryWrapper<Role>().eq("role", user.getRole()));
         if (null == role) {
             return CommonResponse.error("角色不存在！");
         }
         //加密密码
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
         userMapper.insert(user);
 
         UserRole userRole=new UserRole();

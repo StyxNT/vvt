@@ -20,13 +20,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+//    @Autowired
+//    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
+                "/register",
                 "/login",
                 "/logout",
                 "/doc.html",//放行swagger2相关请求
@@ -53,7 +54,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                 .cacheControl();
         //添加JWT登录授权拦截器
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 //        //添加自定义未授权和未登录结果返回
 //        http.exceptionHandling()
 //                .accessDeniedHandler(restfulAccessDeniedHandler)

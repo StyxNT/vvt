@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,8 +74,13 @@ public class User implements Serializable ,UserDetails{
 
     /**
      * 账户是否启用
+     *
+     * 由于重写了UserDetails中的isEnable方法
+     * 这会导致mybatis数据绑定出现错误
+     * 所以要防止lombok生成这个字段的get方法
      */
     @TableField(value = "enabled")
+    @Getter(AccessLevel.NONE)
     private Boolean enabled;
 
     /**
