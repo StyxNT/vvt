@@ -47,10 +47,10 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
   type-aliases-package: com.styxnt.vvtserver.pojo
-#  下划线命名转驼峰
+  #  下划线命名转驼峰
   configuration:
     map-underscore-to-camel-case: true
-##    Mybatis SQL打印(方法接口所在包)
+#   Mybatis SQL打印(方法接口所在包)
 logging:
   level:
     com.styxnt.vvtserver.mapper: debug
@@ -59,7 +59,7 @@ jwt:
   #JWT存储的请求头
   tokenHeader: Authorization
   #JWT加密使用的密钥
-  secret: vvt-secret
+  secret: yeb-secret
   #JWT的超期限时间60*60*24秒==一天
   expiration: 604800
   #JWT 负载中拿到的开头

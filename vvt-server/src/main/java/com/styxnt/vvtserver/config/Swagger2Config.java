@@ -41,7 +41,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
                 .title("志愿服务平台接口文档")
-                .description("云E办接口文档")
+                .description("志愿服务平台接口文档")
                 .contact(new Contact("StyxNT","http://localhost:8081/doc.html","123456@vvt.com"))
                 .version("1.0")
                 .build();

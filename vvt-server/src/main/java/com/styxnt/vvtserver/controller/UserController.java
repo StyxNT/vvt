@@ -6,6 +6,9 @@ import com.styxnt.vvtserver.service.UserService;
 import com.styxnt.vvtserver.utils.CommonResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,5 +38,13 @@ public class UserController {
     @PostMapping("/login")
     public CommonResponse login(@RequestBody LoginParam user){
         return userService.login(user);
+    }
+
+
+    @ApiOperation(value = "退出登录")
+    @GetMapping("/logout")
+    public CommonResponse logout(){
+        SecurityContextHolder.clearContext();
+        return CommonResponse.success("退出登录成功");
     }
 }

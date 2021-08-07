@@ -11,7 +11,9 @@ import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.pojo.UserRole;
 import com.styxnt.vvtserver.service.UserService;
 import com.styxnt.vvtserver.utils.CommonResponse;
+import com.styxnt.vvtserver.utils.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author StyxNT
@@ -42,6 +47,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtTokenUtils jwtTokenUtils;
+
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     /**
      * 用户注册
@@ -104,7 +115,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         );
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        return CommonResponse.success("登录成功");
+        //        生成token
+        String token = jwtTokenUtils.generateToken(userDetails);
+        Map<String,String> tokenMap = new HashMap<>();
+        tokenMap.put("token",token);
+        tokenMap.put("tokenHead",tokenHead);
+
+        return CommonResponse.success("登录成功",tokenMap);
     }
 }
 
