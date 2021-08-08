@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.styxnt.vvtserver.mapper.TeamMapper;
 import com.styxnt.vvtserver.pojo.Team;
 import com.styxnt.vvtserver.pojo.TeamMember;
+import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.TeamMemberService;
 import com.styxnt.vvtserver.service.TeamService;
 import com.styxnt.vvtserver.utils.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author StyxNT
@@ -23,6 +27,9 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private TeamMapper teamMapper;
 
     /**
      * 删除小队
@@ -39,6 +46,17 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
             return CommonResponse.success("删除成功");
         }
         return CommonResponse.error("删除失败");
+    }
+
+    /**
+     * 查询当前用户创建的小队信息
+     * @return
+     */
+    @Override
+    public List<Team> getTeamsByCurrentUser() {
+        int creatorId= ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+
+        return teamMapper.getTeamsByCurrentUser(creatorId);
     }
 }
 

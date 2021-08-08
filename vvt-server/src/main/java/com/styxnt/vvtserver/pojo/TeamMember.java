@@ -25,13 +25,13 @@ public class TeamMember implements Serializable {
      * 小队id
      */
     @TableField(value = "team_id")
-    private Integer team_id;
+    private Integer teamId;
 
     /**
      * 成员id
      */
     @TableField(value = "member_id")
-    private Integer member_id;
+    private Integer memberId;
 
     /**
      * 成员成绩

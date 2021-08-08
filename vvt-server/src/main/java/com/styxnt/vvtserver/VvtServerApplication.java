@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.styxnt.vvtserver.mapper")
+@MapperScan(basePackages = "com.styxnt.vvtserver.mapper")
 public class VvtServerApplication {
 
     public static void main(String[] args) {

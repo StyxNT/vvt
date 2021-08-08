@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.Menu">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="url" column="url" jdbcType="VARCHAR"/>
-            <result property="menu_name" column="menu_name" jdbcType="VARCHAR"/>
+            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
             <result property="enabled" column="enabled" jdbcType="INTEGER"/>
     </resultMap>
 

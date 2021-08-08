@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.styxnt.vvtserver.config.CustomAuthorityDeserializer;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -80,7 +82,7 @@ public class User implements Serializable ,UserDetails{
      * 所以要防止lombok生成这个字段的get方法
      */
     @TableField(value = "enabled")
-    @Getter(AccessLevel.NONE)
+//    @Getter(AccessLevel.NONE)
     private Boolean enabled;
 
     /**
@@ -99,6 +101,7 @@ public class User implements Serializable ,UserDetails{
     private static final long serialVersionUID = 1L;
 
     @Override
+//    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole()))

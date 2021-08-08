@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 活动小队分组表
@@ -48,6 +49,20 @@ public class Team implements Serializable {
      */
     @TableField(value = "active")
     private Integer active;
+
+    /**
+     * 活动
+     */
+    @TableField(exist = false)
+    private Activity activity;
+
+    /**
+     * 小组成员
+     */
+    @TableField(exist = false)
+    private List<User> members;
+
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

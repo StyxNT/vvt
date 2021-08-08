@@ -5,15 +5,75 @@
 <mapper namespace="com.styxnt.vvtserver.mapper.TeamMapper">
 
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.Team">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="teacher_id" column="teacher_id" jdbcType="INTEGER"/>
-            <result property="activity_id" column="activity_id" jdbcType="INTEGER"/>
-            <result property="create_time" column="create_time" jdbcType="DATE"/>
-            <result property="active" column="active" jdbcType="INTEGER"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="DATE"/>
+        <result property="active" column="active" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,teacher_id,activity_id,
         create_time,active
     </sql>
+
+    <resultMap id="TeamsByUserId" type="team" extends="BaseResultMap">
+
+        <association property="activity" javaType="activity">
+            <id column="aid" property="id"/>
+            <result column="aname" property="name"/>
+            <result column="adescription" property="activityDescription"/>
+            <result column="acreate_date" property="createDate"/>
+            <result column="astart_date" property="startDate"/>
+            <result column="aend_date" property="endDate"/>
+            <result column="amax_participant" property="maxParticipant"/>
+            <result column="aactive" property="active"/>
+        </association>
+        <collection property="members" ofType="user">
+            <id column="uid" property="id"/>
+            <result column="uname" property="name"/>
+            <result column="ugender" property="gender"/>
+            <result column="uphone" property="phone"/>
+            <result column="uemail" property="email"/>
+            <result column="uenabled" property="enabled"/>
+            <collection property="roles" ofType="role">
+                <id column="rid" property="id"/>
+                <result column="trole" property="role"/>
+                <result column="trolename" property="roleName"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getTeamsByCurrentUser" resultMap="TeamsByUserId">
+        SELECT team.*,
+               activity.id                   as aid,
+               activity.name                 as aname,
+               activity.activity_description as adescription,
+               activity.create_date          as acreate_date,
+               activity.start_date           as astart_date,
+               activity.end_date             as aend_date,
+               activity.max_participant      as amax_participant,
+               activity.active               as aactive,
+               user.id                       as uid,
+               user.name                     as uname,
+               user.gender                   as ugender,
+               user.phone                    as uphone,
+               user.email                    as uemail,
+               user.enabled                  as uenabled,
+               tr.id                         as rid,
+               tr.role                       as trole,
+               tr.role_name                  as trolename
+        FROM t_team team,
+             t_activity activity,
+             t_user user
+                 left join t_user_role tur on user.id = tur.user_id
+                 left join t_role tr on tur.role_id = tr.id,
+             t_team_member member
+        WHERE team.activity_id = activity.id
+          AND member.team_id = team.id
+          AND member.member_id = user.id
+
+          AND team.teacher_id = #{creatorId}
+    </select>
+
 </mapper>

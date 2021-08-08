@@ -111,8 +111,8 @@ public class TeacherController {
     public CommonResponse addComment(@RequestBody TeamMember comment) {
         if (teamMemberService.update(comment,
                 new QueryWrapper<TeamMember>()
-                        .eq("team_id", comment.getTeam_id())
-                        .eq("member_id", comment.getMember_id()))) {
+                        .eq("team_id", comment.getTeamId())
+                        .eq("member_id", comment.getMemberId()))) {
             return CommonResponse.success("评价成功!");
 
         }
@@ -128,5 +128,10 @@ public class TeacherController {
         return CommonResponse.error("更新失败!");
     }
 
+    @ApiOperation(value = "查询当前用户创建的小队信息")
+    @GetMapping("/team/")
+    public List<Team> getTeamsByCurrentUser(){
+        return teamService.getTeamsByCurrentUser();
+    }
 
 }

@@ -5,16 +5,20 @@
 <mapper namespace="com.styxnt.vvtserver.mapper.RoleMapper">
 
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.Role">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="role" column="role" jdbcType="VARCHAR"/>
-            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,role,role_name
     </sql>
     <select id="getRolesByUserId" resultType="com.styxnt.vvtserver.pojo.Role">
-        SELECT r.* FROM t_role r,t_user_role ur where r.id=ur.role_id AND ur.user_id=#{id}
+        SELECT r.*
+        FROM t_role r,
+             t_user_role ur
+        WHERE r.id = ur.role_id
+          AND ur.user_id = #{id}
 
     </select>
 

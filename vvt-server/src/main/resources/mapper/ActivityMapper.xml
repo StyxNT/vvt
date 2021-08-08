@@ -7,12 +7,12 @@
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.Activity">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="creator_id" column="creator_id" jdbcType="INTEGER"/>
-            <result property="activity_description" column="activity_description" jdbcType="VARCHAR"/>
-            <result property="create_date" column="create_date" jdbcType="DATE"/>
-            <result property="start_date" column="start_date" jdbcType="DATE"/>
-            <result property="end_date" column="end_date" jdbcType="DATE"/>
-            <result property="max_participant" column="max_participant" jdbcType="INTEGER"/>
+            <result property="creatorId" column="creator_id" jdbcType="INTEGER"/>
+            <result property="activityDescription" column="activity_description" jdbcType="VARCHAR"/>
+            <result property="createDate" column="create_date" jdbcType="DATE"/>
+            <result property="startDate" column="start_date" jdbcType="DATE"/>
+            <result property="endDate" column="end_date" jdbcType="DATE"/>
+            <result property="maxParticipant" column="max_participant" jdbcType="INTEGER"/>
             <result property="enabled" column="enabled" jdbcType="INTEGER"/>
             <result property="active" column="active" jdbcType="INTEGER"/>
     </resultMap>
