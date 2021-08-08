@@ -1,7 +1,6 @@
 package com.styxnt.vvtserver.pojo;
 
 import lombok.Data;
-import org.springframework.boot.web.server.PortInUseException;
 
 /**
  * @author StyxNT

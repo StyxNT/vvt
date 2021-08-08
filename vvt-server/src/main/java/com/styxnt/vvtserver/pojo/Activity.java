@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * 志愿活动表
@@ -45,19 +46,22 @@ public class Activity implements Serializable {
      * 活动创建日期
      */
     @TableField(value = "create_date")
-    private Date createDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private LocalDate createDate;
 
     /**
      * 活动开始时间
      */
     @TableField(value = "start_date")
-    private Date startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private LocalDate startDate;
 
     /**
      * 活动结束时间
      */
     @TableField(value = "end_date")
-    private Date endDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private LocalDate endDate;
 
     /**
      * 最多参与人数
