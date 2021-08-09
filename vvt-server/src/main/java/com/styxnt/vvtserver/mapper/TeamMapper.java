@@ -16,7 +16,7 @@ public interface TeamMapper extends BaseMapper<Team> {
      * @param creatorId
      * @return
      */
-    List<Team> getTeamsByCurrentUser(int creatorId);
+    List<Team> getAllTeams(Integer creatorId, String keyword, Integer userId);
 }
 
 

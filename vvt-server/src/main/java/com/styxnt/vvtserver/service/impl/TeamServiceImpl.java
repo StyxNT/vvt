@@ -9,6 +9,7 @@ import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.TeamMemberService;
 import com.styxnt.vvtserver.service.TeamService;
 import com.styxnt.vvtserver.utils.CommonResponse;
+import com.styxnt.vvtserver.utils.SecurityContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,27 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
     public List<Team> getTeamsByCurrentUser() {
         int creatorId= ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 
-        return teamMapper.getTeamsByCurrentUser(creatorId);
+        return teamMapper.getAllTeams(creatorId,null,null);
+    }
+
+    /**
+     * 根据关键词查询志愿活动的队伍
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<Team> getTeamsByKeyWord(String keyword) {
+        return teamMapper.getAllTeams(null,keyword,null);
+    }
+
+    /**
+     * 查询当前用户参与的所有活动
+     * @return
+     */
+    @Override
+    public List<Team> getMyTeams() {
+        Integer userId= SecurityContextUtil.getContextUser().getId();
+        return teamMapper.getAllTeams(null, null, userId);
     }
 }
 

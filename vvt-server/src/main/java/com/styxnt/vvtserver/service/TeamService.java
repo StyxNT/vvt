@@ -23,4 +23,17 @@ public interface TeamService extends IService<Team> {
      * @return
      */
     List<Team> getTeamsByCurrentUser();
+
+    /**
+     * 根据关键词查询志愿活动的队伍
+     * @param keyword
+     * @return
+     */
+    List<Team> getTeamsByKeyWord(String keyword);
+
+    /**
+     * 查询当前用户参与的所有活动
+     * @return
+     */
+    List<Team> getMyTeams();
 }

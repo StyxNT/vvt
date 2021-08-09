@@ -17,7 +17,7 @@
         create_time,active
     </sql>
 
-    <resultMap id="TeamsByUserId" type="team" extends="BaseResultMap">
+    <resultMap id="Teams" type="team" extends="BaseResultMap">
 
         <association property="activity" javaType="activity">
             <id column="aid" property="id"/>
@@ -44,36 +44,45 @@
         </collection>
     </resultMap>
 
-    <select id="getTeamsByCurrentUser" resultMap="TeamsByUserId">
+    <select id="getAllTeams" resultMap="Teams">
         SELECT team.*,
-               activity.id                   as aid,
-               activity.name                 as aname,
-               activity.activity_description as adescription,
-               activity.create_date          as acreate_date,
-               activity.start_date           as astart_date,
-               activity.end_date             as aend_date,
-               activity.max_participant      as amax_participant,
-               activity.active               as aactive,
-               user.id                       as uid,
-               user.name                     as uname,
-               user.gender                   as ugender,
-               user.phone                    as uphone,
-               user.email                    as uemail,
-               user.enabled                  as uenabled,
-               tr.id                         as rid,
-               tr.role                       as trole,
-               tr.role_name                  as trolename
+        activity.id as aid,
+        activity.name as aname,
+        activity.activity_description as adescription,
+        activity.create_date as acreate_date,
+        activity.start_date as astart_date,
+        activity.end_date as aend_date,
+        activity.max_participant as amax_participant,
+        activity.active as aactive,
+        user.id as uid,
+        user.name as uname,
+        user.gender as ugender,
+        user.phone as uphone,
+        user.email as uemail,
+        user.enabled as uenabled,
+        tr.id as rid,
+        tr.role as trole,
+        tr.role_name as trolename
         FROM t_team team,
-             t_activity activity,
-             t_user user
-                 left join t_user_role tur on user.id = tur.user_id
-                 left join t_role tr on tur.role_id = tr.id,
-             t_team_member member
+        t_activity activity,
+        t_user user
+        left join t_user_role tur on user.id = tur.user_id
+        left join t_role tr on tur.role_id = tr.id,
+        t_team_member member
         WHERE team.activity_id = activity.id
-          AND member.team_id = team.id
-          AND member.member_id = user.id
+        AND member.team_id = team.id
+        AND member.member_id = user.id
 
-          AND team.teacher_id = #{creatorId}
+        <if test="null!=creatorId">
+            AND team.teacher_id = #{creatorId}
+        </if>
+        <if test="null!=keyword and ''!=keyword">
+            AND activity.name like concat('%',#{keyword},'%')
+        </if>
+        <if test="null!=userId">
+            AND user.id=#{userId}
+        </if>
+
     </select>
 
 </mapper>
