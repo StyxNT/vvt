@@ -45,6 +45,12 @@ public class TeamMember implements Serializable {
     @TableField(value = "comment")
     private String comment;
 
+    /**
+     * 成员信息
+     */
+    @TableField(exist = false)
+    private User user;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

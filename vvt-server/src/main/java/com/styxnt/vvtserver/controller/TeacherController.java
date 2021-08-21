@@ -9,6 +9,7 @@ import com.styxnt.vvtserver.service.ActivityService;
 import com.styxnt.vvtserver.service.TeamMemberService;
 import com.styxnt.vvtserver.service.TeamService;
 import com.styxnt.vvtserver.utils.CommonResponse;
+import com.styxnt.vvtserver.utils.SecurityContextUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +41,7 @@ public class TeacherController {
     @PostMapping("/activity")
     public CommonResponse addActivity(@RequestBody Activity activity) {
         activity.setCreateDate(LocalDate.now());
+        activity.setCreatorId(SecurityContextUtil.getContextUser().getId());
         if (activityService.save(activity)) {
             return CommonResponse.success("添加活动成功！");
         }
@@ -75,6 +77,7 @@ public class TeacherController {
     @PostMapping("/team")
     public CommonResponse createTeam(@RequestBody Team team) {
         team.setCreateTime(LocalDate.now());
+        team.setTeacherId(SecurityContextUtil.getContextUser().getId());
         if (teamService.save(team)) {
             return CommonResponse.success("添加成功！");
         }
@@ -88,10 +91,9 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "删除小队中的某个成员")
-    @DeleteMapping("/team/{teamId}/member/{memberId}")
-    public CommonResponse deleteTeamMember(@PathVariable Integer teamId, @PathVariable Integer memberId) {
-
-        if (teamMemberService.remove(new QueryWrapper<TeamMember>().eq("team_id", teamId).eq("member_id", memberId))) {
+    @DeleteMapping("/team/member/{teamMemberId}")
+    public CommonResponse deleteTeamMember(@PathVariable Integer teamMemberId) {
+        if (teamMemberService.removeById(teamMemberId)) {
             return CommonResponse.success("删除成功!");
         }
         return CommonResponse.error("删除失败!");
@@ -109,12 +111,9 @@ public class TeacherController {
     @ApiOperation(value = "为小队成员添加评论")
     @PutMapping("/team/member/comment")
     public CommonResponse addComment(@RequestBody TeamMember comment) {
-        if (teamMemberService.update(comment,
-                new QueryWrapper<TeamMember>()
-                        .eq("team_id", comment.getTeamId())
-                        .eq("member_id", comment.getMemberId()))) {
+        System.out.println(comment);
+        if (teamMemberService.updateById(comment)) {
             return CommonResponse.success("评价成功!");
-
         }
         return CommonResponse.error("评价失败!");
     }
@@ -132,6 +131,12 @@ public class TeacherController {
     @GetMapping("/team/")
     public List<Team> getTeamsByCurrentUser(){
         return teamService.getTeamsByCurrentUser();
+    }
+
+    @ApiOperation(value = "查询指定小队的成员")
+    @GetMapping("/team/members/{teamId}")
+    public List<TeamMember> getTeamMembers(@PathVariable Integer teamId){
+        return teamMemberService.getTeamMembers(teamId);
     }
 
 }

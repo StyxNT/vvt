@@ -23,4 +23,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     CommonResponse login(LoginParam user);
+
+    /**
+     * 根据小队id查询老师信息
+     * @param teamId
+     * @return
+     */
+    User getTeacherInfoByTeamId(Integer teamId);
 }

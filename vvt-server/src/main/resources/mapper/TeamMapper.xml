@@ -44,7 +44,7 @@
         </collection>
     </resultMap>
 
-    <select id="getAllTeams" resultMap="Teams">
+    <select id="getAllTeams" resultMap="Teams" >
         SELECT team.*,
         activity.id as aid,
         activity.name as aname,
@@ -84,5 +84,61 @@
         </if>
 
     </select>
+
+    <select id="getTeamsByCurrentUser" resultMap="TeamsWithActivity">
+
+        SELECT team.*,
+               activity.id                   as aid,
+               activity.name                 as aname,
+               activity.activity_description as adescription,
+               activity.create_date          as acreate_date,
+               activity.start_date           as astart_date,
+               activity.end_date             as aend_date,
+               activity.max_participant      as amax_participant,
+               activity.active               as aactive
+
+        FROM t_team team ,
+             t_activity activity,
+             t_user teacher
+
+        WHERE team.activity_id = activity.id
+          AND team.teacher_id=teacher.id
+          AND teacher.id=#{creatorId}
+
+
+    </select>
+    <select id="getTeamsByKeyWord" resultMap="TeamsWithActivity">
+
+        SELECT team.*,
+               activity.id                   as aid,
+               activity.name                 as aname,
+               activity.activity_description as adescription,
+               activity.create_date          as acreate_date,
+               activity.start_date           as astart_date,
+               activity.end_date             as aend_date,
+               activity.max_participant      as amax_participant,
+               activity.active               as aactive
+
+        FROM t_team team ,
+             t_activity activity
+        WHERE team.activity_id = activity.id
+        <if test="keyword!=null and keyword!=''">
+            AND activity.name like concat('%',#{keyword},'%')
+        </if>
+
+    </select>
+
+    <resultMap id="TeamsWithActivity" type="team" extends="BaseResultMap">
+        <association property="activity" javaType="activity">
+            <id column="aid" property="id"/>
+            <result column="aname" property="name"/>
+            <result column="adescription" property="activityDescription"/>
+            <result column="acreate_date" property="createDate"/>
+            <result column="astart_date" property="startDate"/>
+            <result column="aend_date" property="endDate"/>
+            <result column="amax_participant" property="maxParticipant"/>
+            <result column="aactive" property="active"/>
+        </association>
+    </resultMap>
 
 </mapper>

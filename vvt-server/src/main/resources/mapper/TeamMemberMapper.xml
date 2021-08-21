@@ -5,15 +5,37 @@
 <mapper namespace="com.styxnt.vvtserver.mapper.TeamMemberMapper">
 
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.TeamMember">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="teamId" column="team_id" jdbcType="INTEGER"/>
-            <result property="memberId" column="member_id" jdbcType="INTEGER"/>
-            <result property="score" column="score" jdbcType="DOUBLE"/>
-            <result property="comment" column="comment" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="teamId" column="team_id" jdbcType="INTEGER"/>
+        <result property="memberId" column="member_id" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="DOUBLE"/>
+        <result property="comment" column="comment" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,team_id,member_id,
         score,comment
     </sql>
+
+
+    <select id="getTeamMembers" resultMap="TeamMemberWithUser">
+        SELECT tm.*,
+               u.name  as uname,
+               u.phone as uphone,
+               u.email as umail,
+               u.gender as ugender
+        FROM t_team_member tm,
+             t_user u
+
+        WHERE tm.member_id = u.id
+          AND tm.team_id = #{teamId}
+    </select>
+    <resultMap id="TeamMemberWithUser" type="teamMember" extends="BaseResultMap">
+        <association property="user">
+            <result property="name" column="uname"/>
+            <result property="phone" column="uphone"/>
+            <result property="email" column="umail"/>
+            <result property="gender" column="ugender"/>
+        </association>
+    </resultMap>
 </mapper>

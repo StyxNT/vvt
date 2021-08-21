@@ -51,6 +51,12 @@ public class Team implements Serializable {
     private Integer active;
 
     /**
+     * 负责老师
+     */
+    @TableField(exist = false)
+    private User teacher;
+
+    /**
      * 活动
      */
     @TableField(exist = false)

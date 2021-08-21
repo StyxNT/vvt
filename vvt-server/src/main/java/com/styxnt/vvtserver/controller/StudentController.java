@@ -3,8 +3,10 @@ package com.styxnt.vvtserver.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.styxnt.vvtserver.pojo.Team;
 import com.styxnt.vvtserver.pojo.TeamMember;
+import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.TeamMemberService;
 import com.styxnt.vvtserver.service.TeamService;
+import com.styxnt.vvtserver.service.UserService;
 import com.styxnt.vvtserver.utils.CommonResponse;
 import com.styxnt.vvtserver.utils.SecurityContextUtil;
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +32,12 @@ public class StudentController {
     @Autowired
     private TeamMemberService teamMemberService;
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "查询所有活动队伍信息")
-    @GetMapping("/team/{keyword}")
-    public List<Team> getTeams(@PathVariable String keyword){
+    @GetMapping("/team/")
+    public List<Team> getTeams(@RequestParam(required = false) String keyword){
         return teamService.getTeamsByKeyWord(keyword);
     }
 
@@ -63,6 +68,12 @@ public class StudentController {
     public TeamMember getTeamComment(@PathVariable Integer teamId){
         int userId=SecurityContextUtil.getContextUser().getId();
         return teamMemberService.getOne(new QueryWrapper<TeamMember>().eq("team_id",teamId).eq("member_id",userId));
+    }
+
+    @ApiOperation(value = "根据小队id查询老师信息")
+    @GetMapping("/team/teacher/{teamId}")
+    public User getTeacherInfoByTeamId(@PathVariable Integer teamId){
+        return userService.getTeacherInfoByTeamId(teamId);
     }
 
 }

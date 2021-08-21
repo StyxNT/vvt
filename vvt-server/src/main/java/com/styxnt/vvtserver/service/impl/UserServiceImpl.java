@@ -123,6 +123,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         return CommonResponse.success("登录成功",tokenMap);
     }
+
+    /**
+     * 根据小队id查询老师信息
+     * @param teamId
+     * @return
+     */
+    @Override
+    public User getTeacherInfoByTeamId(Integer teamId) {
+        return userMapper.getTeacherInfoByTeamId(teamId);
+    }
 }
 
 

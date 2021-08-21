@@ -5,15 +5,15 @@
 <mapper namespace="com.styxnt.vvtserver.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.User">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="OTHER"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="phone" column="phone" jdbcType="CHAR"/>
-            <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="userface" column="userface" jdbcType="VARCHAR"/>
-            <result property="enabled" column="enabled" jdbcType="INTEGER"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="OTHER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="CHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="userface" column="userface" jdbcType="VARCHAR"/>
+        <result property="enabled" column="enabled" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -21,4 +21,15 @@
         username,password,phone,
         email,userface,enabled
     </sql>
+
+    <select id="getTeacherInfoByTeamId" resultType="com.styxnt.vvtserver.pojo.User">
+        select user.id,
+               user.name,
+               user.phone,
+               user.email
+        from vvt.t_user user,
+             vvt.t_team team
+        where user.id = team.teacher_id
+          AND team.id=#{teamId}
+    </select>
 </mapper>

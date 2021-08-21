@@ -41,7 +41,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/doc.html",//放行swagger2相关请求
                 "/webjars/**",
                 "/swagger-resources/**",
-                "/v2/api-docs/**"
+                "/v2/api-docs/**",
+                "/favicon.ico"
         );
     }
 

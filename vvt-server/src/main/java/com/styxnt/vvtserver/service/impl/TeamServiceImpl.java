@@ -57,7 +57,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
     public List<Team> getTeamsByCurrentUser() {
         int creatorId= ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 
-        return teamMapper.getAllTeams(creatorId,null,null);
+        return teamMapper.getTeamsByCurrentUser(creatorId);
     }
 
     /**
@@ -67,7 +67,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
      */
     @Override
     public List<Team> getTeamsByKeyWord(String keyword) {
-        return teamMapper.getAllTeams(null,keyword,null);
+        return teamMapper.getTeamsByKeyWord(keyword);
     }
 
     /**

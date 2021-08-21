@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.styxnt.vvtserver.mapper.MailLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.styxnt.vvtserver.pojo.MailLog">
+            <id property="msgId" column="msgId" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="teamId" column="team_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="routeKey" column="routeKey" jdbcType="VARCHAR"/>
+            <result property="exchange" column="exchange" jdbcType="VARCHAR"/>
+            <result property="count" column="count" jdbcType="INTEGER"/>
+            <result property="tryTime" column="tryTime" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        msgId,user_id,team_id,
+        status,routeKey,exchange,
+        count,tryTime,createTime,
+        updateTime
+    </sql>
+</mapper>
