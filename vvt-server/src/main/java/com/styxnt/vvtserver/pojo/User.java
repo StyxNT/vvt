@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
  */
 @TableName(value ="t_user")
 @Data
+@JsonIgnoreProperties({ "authorities","credentialsNonExpired","accountNonExpired","accountNonLocked"})
 public class User implements Serializable ,UserDetails{
     /**
      * 用户ID
@@ -136,4 +139,10 @@ public class User implements Serializable ,UserDetails{
     public boolean isEnabled() {
         return enabled;
     }
+
+    @JsonIgnore
+    public void setAuthorities(){
+        ;
+    }
+
 }

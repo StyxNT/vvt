@@ -46,6 +46,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String username = jwtTokenUtils.getUserNameFromToken(authToken);
             //用户名存在，但是SpringSecurity全局中没有用户对象，说明没登录,必须重新登录并把userdetails设置到SpringSecurity的全局上下文中
             if(username!=null&& SecurityContextHolder.getContext().getAuthentication()==null){
+
+//                System.out.println("JWT未登录---------------------------------------------->执行登录操作");
+
                 //登录
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
