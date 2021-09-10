@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author StyxNT
  * @date 2021/8/6
@@ -33,6 +35,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         //尝试从redis中获取用户信息
         User user = (User) redisTemplate.opsForValue().get(username);
+        //redis中没有就从数据库中查询
         if(user==null){
             user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username).eq("enabled", true));
         } else {
@@ -44,7 +47,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }else{
 
             user.setRoles(roleService.getRolesByUserId(user.getId()));
-            redisTemplate.opsForValue().set(username,user);
+            redisTemplate.opsForValue().set(username,user,600, TimeUnit.SECONDS);
         }
 
         return user;
