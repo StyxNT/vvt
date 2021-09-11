@@ -1,6 +1,6 @@
 package com.styxnt.vvtmail;
 
-import com.styxnt.vvtserver.pojo.MailConstants;
+import com.styxnt.vvtserver.constants.MailConstants;
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

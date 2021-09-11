@@ -1,6 +1,7 @@
 package com.styxnt.vvtserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.styxnt.vvtserver.constants.RedisConstants;
 import com.styxnt.vvtserver.mapper.UserMapper;
 import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.RoleService;
@@ -34,7 +35,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //尝试从redis中获取用户信息
-        User user = (User) redisTemplate.opsForValue().get(username);
+        User user = (User) redisTemplate.opsForValue().get(RedisConstants.LOGIN_USER+username);
         //redis中没有就从数据库中查询
         if(user==null){
             user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username).eq("enabled", true));
@@ -47,7 +48,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }else{
 
             user.setRoles(roleService.getRolesByUserId(user.getId()));
-            redisTemplate.opsForValue().set(username,user,600, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(RedisConstants.LOGIN_USER+username,user,30, TimeUnit.MINUTES);
         }
 
         return user;

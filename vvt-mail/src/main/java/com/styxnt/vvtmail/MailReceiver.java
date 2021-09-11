@@ -1,7 +1,7 @@
 package com.styxnt.vvtmail;
 
 import com.rabbitmq.client.Channel;
-import com.styxnt.vvtserver.pojo.MailConstants;
+import com.styxnt.vvtserver.constants.MailConstants;
 import com.styxnt.vvtserver.pojo.Team;
 import com.styxnt.vvtserver.pojo.User;
 import org.slf4j.Logger;

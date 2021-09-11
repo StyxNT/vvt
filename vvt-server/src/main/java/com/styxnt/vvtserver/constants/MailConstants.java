@@ -1,4 +1,4 @@
-package com.styxnt.vvtserver.pojo;
+package com.styxnt.vvtserver.constants;
 
 /**
  * 消息状态

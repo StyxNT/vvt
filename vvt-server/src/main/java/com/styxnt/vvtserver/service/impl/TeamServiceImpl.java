@@ -2,6 +2,7 @@ package com.styxnt.vvtserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.styxnt.vvtserver.constants.RedisConstants;
 import com.styxnt.vvtserver.mapper.TeamMapper;
 import com.styxnt.vvtserver.pojo.Team;
 import com.styxnt.vvtserver.pojo.TeamMember;
@@ -11,11 +12,13 @@ import com.styxnt.vvtserver.service.TeamService;
 import com.styxnt.vvtserver.utils.CommonResponse;
 import com.styxnt.vvtserver.utils.SecurityContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author StyxNT
@@ -31,6 +34,9 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
 
     @Autowired
     private TeamMapper teamMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 删除小队
@@ -67,7 +73,14 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
      */
     @Override
     public List<Team> getTeamsByKeyWord(String keyword) {
-        return teamMapper.getTeamsByKeyWord(keyword);
+
+        List<Team> teamsByKeyWord = (List<Team>) redisTemplate.opsForValue().get(RedisConstants.TEAM + keyword);
+        if(teamsByKeyWord!=null){
+            return teamsByKeyWord;
+        }
+        teamsByKeyWord = teamMapper.getTeamsByKeyWord(keyword);
+        redisTemplate.opsForValue().set(RedisConstants.TEAM +keyword,teamsByKeyWord,1, TimeUnit.MINUTES);
+        return teamsByKeyWord;
     }
 
     /**

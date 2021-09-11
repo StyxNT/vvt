@@ -2,7 +2,7 @@ package com.styxnt.vvtserver.config;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.styxnt.vvtserver.pojo.MailConstants;
+import com.styxnt.vvtserver.constants.MailConstants;
 import com.styxnt.vvtserver.pojo.MailLog;
 import com.styxnt.vvtserver.service.MailLogService;
 import org.slf4j.Logger;

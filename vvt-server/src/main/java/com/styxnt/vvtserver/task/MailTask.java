@@ -2,9 +2,9 @@ package com.styxnt.vvtserver.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.styxnt.vvtserver.constants.MailConstants;
 import com.styxnt.vvtserver.mapper.TeamMapper;
 import com.styxnt.vvtserver.mapper.UserMapper;
-import com.styxnt.vvtserver.pojo.MailConstants;
 import com.styxnt.vvtserver.pojo.MailLog;
 import com.styxnt.vvtserver.pojo.Team;
 import com.styxnt.vvtserver.pojo.User;

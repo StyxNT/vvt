@@ -2,10 +2,14 @@ package com.styxnt.vvtserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.styxnt.vvtserver.constants.MailConstants;
 import com.styxnt.vvtserver.mapper.MailLogMapper;
 import com.styxnt.vvtserver.mapper.TeamMemberMapper;
 import com.styxnt.vvtserver.mapper.UserMapper;
-import com.styxnt.vvtserver.pojo.*;
+import com.styxnt.vvtserver.pojo.MailLog;
+import com.styxnt.vvtserver.pojo.Team;
+import com.styxnt.vvtserver.pojo.TeamMember;
+import com.styxnt.vvtserver.pojo.User;
 import com.styxnt.vvtserver.service.ActivityService;
 import com.styxnt.vvtserver.service.TeamMemberService;
 import com.styxnt.vvtserver.service.TeamService;
