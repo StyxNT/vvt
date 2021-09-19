@@ -1,18 +1,22 @@
-create table if not exists vvt.t_menu
+create table if not exists t_mail_log
 (
-    id        int auto_increment,
-    url       varchar(64)   not null comment '请求的地址',
-    menu_name varchar(64)   not null comment '菜单名字',
-    enabled   int default 1 null comment '是否启用',
-    constraint t_menu_id_uindex
-        unique (id)
-)
-    comment '菜单表';
+    msgId      varchar(64) not null,
+    user_id    int         not null,
+    team_id    int         not null,
+    status     int         null,
+    routeKey   varchar(64) null,
+    exchange   varchar(64) null,
+    count      int         null,
+    createTime datetime    null,
+    updateTime datetime    null,
+    constraint t_team_welcome_mail_msgId_uindex
+        unique (msgId)
+);
 
-alter table vvt.t_menu
-    add primary key (id);
+alter table t_mail_log
+    add primary key (msgId);
 
-create table if not exists vvt.t_role
+create table if not exists t_role
 (
     id        int auto_increment comment '角色id'
         primary key,
@@ -22,38 +26,7 @@ create table if not exists vvt.t_role
         unique (role)
 );
 
-create table if not exists vvt.t_menu_role
-(
-    id      int auto_increment comment '主键',
-    menu_id int not null comment '菜单表id',
-    role_id int not null comment '角色id',
-    constraint t_menu_role_id_uindex
-        unique (id),
-    constraint t_menu_role_t_menu_id_fk
-        foreign key (menu_id) references vvt.t_menu (id),
-    constraint t_menu_role_t_role_id_fk
-        foreign key (role_id) references vvt.t_role (id)
-)
-    comment '菜单权限表';
-
-alter table vvt.t_menu_role
-    add primary key (id);
-
-create table if not exists vvt.t_team_member
-(
-    id        int auto_increment,
-    team_id   int           not null comment '小队id',
-    member_id int           not null comment '成员id',
-    score     double        null comment '成员成绩',
-    comment   varchar(1024) null comment '成员评价',
-    constraint t_team_member_id_uindex
-        unique (id)
-);
-
-alter table vvt.t_team_member
-    add primary key (id);
-
-create table if not exists vvt.t_user
+create table if not exists t_user
 (
     id       int auto_increment comment '用户ID'
         primary key,
@@ -69,7 +42,7 @@ create table if not exists vvt.t_user
         unique (username)
 );
 
-create table if not exists vvt.t_activity
+create table if not exists t_activity
 (
     id                   int auto_increment comment '活动ID',
     name                 varchar(64)   not null comment '活动名称',
@@ -84,14 +57,14 @@ create table if not exists vvt.t_activity
     constraint t_activity_id_uindex
         unique (id),
     constraint t_activity_t_user_id_fk
-        foreign key (creator_id) references vvt.t_user (id)
+        foreign key (creator_id) references t_user (id)
 )
     comment '志愿活动表';
 
-alter table vvt.t_activity
+alter table t_activity
     add primary key (id);
 
-create table if not exists vvt.t_team
+create table if not exists t_team
 (
     id          int auto_increment comment '小队id',
     teacher_id  int           null comment '指导老师id',
@@ -100,15 +73,35 @@ create table if not exists vvt.t_team
     active      int default 1 null comment '是否活动',
     constraint t_team_id_uindex
         unique (id),
+    constraint t_team_t_activity_id_fk
+        foreign key (activity_id) references t_activity (id),
     constraint t_team_t_user_id_fk
-        foreign key (teacher_id) references vvt.t_user (id)
+        foreign key (teacher_id) references t_user (id)
 )
     comment '活动小队分组表';
 
-alter table vvt.t_team
+alter table t_team
     add primary key (id);
 
-create table if not exists vvt.t_user_role
+create table if not exists t_team_member
+(
+    id        int auto_increment,
+    team_id   int           not null comment '小队id',
+    member_id int           not null comment '成员id',
+    score     double        null comment '成员成绩',
+    comment   varchar(1024) null comment '成员评价',
+    constraint t_team_member_id_uindex
+        unique (id),
+    constraint t_team_member_t_team_id_fk
+        foreign key (team_id) references t_team (id),
+    constraint t_team_member_t_user_id_fk
+        foreign key (member_id) references t_user (id)
+);
+
+alter table t_team_member
+    add primary key (id);
+
+create table if not exists t_user_role
 (
     id      int auto_increment comment '主键',
     user_id int not null comment '用户id',
@@ -116,12 +109,12 @@ create table if not exists vvt.t_user_role
     constraint t_user_role_id_uindex
         unique (id),
     constraint t_user_role_t_role_id_fk
-        foreign key (role_id) references vvt.t_role (id),
+        foreign key (role_id) references t_role (id),
     constraint t_user_role_t_user_id_fk
-        foreign key (user_id) references vvt.t_user (id)
+        foreign key (user_id) references t_user (id)
 )
     comment '用户角色表';
 
-alter table vvt.t_user_role
+alter table t_user_role
     add primary key (id);
 
