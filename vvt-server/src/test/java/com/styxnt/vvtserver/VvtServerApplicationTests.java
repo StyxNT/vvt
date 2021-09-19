@@ -1,20 +1,34 @@
 package com.styxnt.vvtserver;
 
-import com.styxnt.vvtserver.pojo.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class VvtServerApplicationTests {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    String uuid="156512165468";
     @Test
     void contextLoads() {
-        Object test = redisTemplate.opsForValue().get("test");
-        System.out.println((User)test);
+
+//        String uuid = UUID.randomUUID().toString();
+
+        if (redisTemplate.opsForValue().setIfAbsent("UUIDTest:"+uuid,"OK",10, TimeUnit.MINUTES)) {
+            System.out.println("success");
+        }else {
+            System.out.println("error");
+        }
+
+    }
+
+    @Test
+    void redisDeleteTest(){
+        System.out.println(redisTemplate.delete("UUIDTest:" + uuid));
     }
 
 }

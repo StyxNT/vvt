@@ -47,4 +47,9 @@ public class MailConstants {
      * 路由键
      */
     public static final String MAIL_ROUTING_KEY_NAME="mail.routing.key";
+
+    /**
+     * Redis缓存消息ID时的前缀
+     */
+    public static final String MAIL_REDIS_PREFIX="MAIL_UUID:";
 }

@@ -37,7 +37,7 @@ public class RabbitMQConfig {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(cachingConnectionFactory);
 
         /*
-          设置确认回调,确认消息是否到达broker
+          设置确认回调
           data:消息的唯一标识
           ack:确认结果
           cause:失败原因

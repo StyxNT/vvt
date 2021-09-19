@@ -47,11 +47,11 @@ public class MailTask {
      */
     @Scheduled(cron = "0/10 * * * * ?")
     public void mailTask() {
-        List<MailLog> mailLogList = mailLogService.list(new QueryWrapper<MailLog>().eq("status", 0).lt("tryTime", LocalDateTime.now()));
+        List<MailLog> mailLogList = mailLogService.list(new QueryWrapper<MailLog>().eq("status", 0));
 
         mailLogList.forEach(mailLog -> {
             //重试次数超过三次就更新状态为投递失败
-            if (3 <= mailLog.getCount()) {
+            if (MailConstants.MAX_TRY_COUNT < mailLog.getCount()) {
                 mailLogService.update(new UpdateWrapper<MailLog>()
                         .set("status", MailConstants.FAILURE)
                         .eq("msgId", mailLog.getMsgId()));
@@ -60,7 +60,6 @@ public class MailTask {
                         .eq("msgId", mailLog.getMsgId())
                         .set("count", mailLog.getCount() + 1)
                         .set("updateTime", LocalDateTime.now())
-                        .set("tryTime", LocalDateTime.now().plusMinutes(MailConstants.MSG_TIMEOUT))
                 );
                 HashMap<String,Object> teamMap=new HashMap<>();
 

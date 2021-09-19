@@ -97,11 +97,10 @@ implements TeamMemberService{
             mailLog.setMsgId(msgId);
             mailLog.setTeamId(team.getId());
             mailLog.setUserId(userId);
-            mailLog.setStatus(0);
+            mailLog.setStatus(MailConstants.DELIVERING);
             mailLog.setRouteKey(MailConstants.MAIL_ROUTING_KEY_NAME);
             mailLog.setExchange(MailConstants.MAIL_EXCHANGE_NAME);
             mailLog.setCount(0);
-            mailLog.setTryTime(LocalDateTime.now().plusMinutes(MailConstants.MSG_TIMEOUT));
             mailLog.setCreateTime(LocalDateTime.now());
             mailLog.setUpdateTime(LocalDateTime.now());
             mailLogMapper.insert(mailLog);

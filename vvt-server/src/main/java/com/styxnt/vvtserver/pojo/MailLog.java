@@ -60,12 +60,6 @@ public class MailLog implements Serializable {
     /**
      *
      */
-    @TableField(value = "tryTime")
-    private LocalDateTime tryTime;
-
-    /**
-     *
-     */
     @TableField(value = "createTime")
     private LocalDateTime createTime;
 
